@@ -1,6 +1,6 @@
 {
   "name": "s3-revisions",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A commander CLI app",
   "repository": {
     "url": "git@github.com:pierissimo/s3-revisions.git"
