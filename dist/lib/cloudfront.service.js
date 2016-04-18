@@ -39,7 +39,7 @@ var CloudfrontService = exports.CloudfrontService = function () {
     this.program = program;
     this.cloudfront = _bluebird2.default.promisifyAll(new _awsSdk2.default.CloudFront());
 
-    this.rootFolder = this.program.rootFolder || '';
+    this.rootFolder = this.program.s3RootFolder || '';
     this.revisionFolderName = _constants.CONSTANTS.REVISION_FOLDERNAME;
     this.lastRevisionFolderPath = _path2.default.join(this.rootFolder, this.revisionFolderName, _constants.CONSTANTS.LAST_REVISION_FOLDERNAME);
   }

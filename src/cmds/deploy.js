@@ -30,7 +30,9 @@ module.exports = function (program) {
     const gitFolder = cmd.gitFolder || '.';
     const versionHash = getVersionHash(gitFolder);
 
-    OutputService.log(CONSTANTS.LABELS.DEPLOY_START);
+    setTimeout(() => {
+      OutputService.log(CONSTANTS.LABELS.DEPLOY_START);
+    }, 1);
     S3Srvc
         .uploadFolder(distFolder, versionHash)
         .then(() => {

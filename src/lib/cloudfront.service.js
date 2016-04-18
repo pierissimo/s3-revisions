@@ -14,7 +14,7 @@ export class CloudfrontService {
     this.program = program;
     this.cloudfront = Promise.promisifyAll(new AWS.CloudFront());
 
-    this.rootFolder = this.program.rootFolder || '';
+    this.rootFolder = this.program.s3RootFolder || '';
     this.revisionFolderName = CONSTANTS.REVISION_FOLDERNAME;
     this.lastRevisionFolderPath = path.join(this.rootFolder, this.revisionFolderName, CONSTANTS.LAST_REVISION_FOLDERNAME);
   }

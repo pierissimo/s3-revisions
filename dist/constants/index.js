@@ -15,7 +15,7 @@ var CONSTANTS = exports.CONSTANTS = {
     CHECKING_FOR_INITIALIZED_BUCKET: 'Checking if bucket has been already initialized',
     BUCKET_NOT_INITIALIZED: 'The bucket seems to be not inizialized',
     BUCKET_INITIALIZING: 'Initializing the bucket',
-    BUCKET_INITIALIZED: 'Initializing the bucket',
+    BUCKET_INITIALIZED: 'Bucket Initialized',
     BUCKET_VALID: 'Valid bucket',
 
     DEPLOY_START: 'Start deploy',

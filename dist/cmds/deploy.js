@@ -36,7 +36,9 @@ module.exports = function (program) {
     var gitFolder = cmd.gitFolder || '.';
     var versionHash = getVersionHash(gitFolder);
 
-    _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_START);
+    setTimeout(function () {
+      _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_START);
+    }, 1);
     S3Srvc.uploadFolder(distFolder, versionHash).then(function () {
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_FOLDER_UPLOADED);
       return S3Srvc.addRevisionToJson(versionHash);

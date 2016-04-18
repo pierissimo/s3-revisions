@@ -52,7 +52,7 @@ var S3Service = exports.S3Service = function () {
     };
     this.s3 = _bluebird2.default.promisifyAll(_s2.default.createClient(options));
     this.bucket = this.program.bucket;
-    this.rootFolder = this.program.rootFolder || '';
+    this.rootFolder = this.program.s3RootFolder || '';
     this.revisionFolderName = _constants.CONSTANTS.REVISION_FOLDERNAME;
     this.revisionFolderPath = _path2.default.join(this.rootFolder, this.revisionFolderName);
     this.metaJsonPath = _path2.default.join(this.revisionFolderPath, _constants.CONSTANTS.META_JSON_FILENAME);
