@@ -21,6 +21,12 @@ var OutputService = exports.OutputService = function () {
       }
     }
   }, {
+    key: 'error',
+    value: function error(message) {
+      console.error('---- ERROR:');
+      console.error(message);
+    }
+  }, {
     key: 'debug',
     value: function debug(message) {
       if (this.checkVerbosity()) {

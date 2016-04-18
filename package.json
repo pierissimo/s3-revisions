@@ -2,9 +2,11 @@
   "name": "s3-revisions",
   "version": "0.0.1",
   "description": "A commander CLI app",
-  "private": true,
+  "repository": {
+    "url": "git@github.com:pierissimo/s3-revisions.git"
+  },
   "bin": {
-    "s3-deploy-fun": "./dist/index.js"
+    "s3-revisions": "./dist/index.js"
   },
   "scripts": {
     "build": "./node_modules/.bin/babel --presets es2015,stage-0 src -d dist",
@@ -16,10 +18,6 @@
     "name": "Piero Maltese",
     "email": "maltesepiero@gmail.com",
     "url": "https://github.com/pierissimo"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pierissimo/s3-deploy-fun"
   },
   "license": "MIT",
   "bugs": "https://github.com/pierissimo/s3-deploy-fun/issues",

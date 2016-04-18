@@ -2,6 +2,8 @@
 
 var _s = require('../lib/s3.service');
 
+var _cloudfront = require('../lib/cloudfront.service');
+
 var _constants = require('../constants');
 
 var _lodash = require('lodash');
@@ -24,10 +26,12 @@ module.exports = function (program) {
 
   program.command('deploy').version('0.0.0')
   //.description('Deploy')
-  .option('-g, --git-folder <gitFolder>').option('-d, --dist-folder <distFolder>').action(deployAction);
+  .option('-g, --git-folder <gitFolder>').option('-d, --dist-folder <distFolder>').option('-i, --invalidate-cloufront-distribution [cloudFrontDistribution]').action(deployAction);
 
   function deployAction(cmd, options) {
     var S3Srvc = new _s.S3Service(program);
+    var CloudfrontSrvc = new _cloudfront.CloudfrontService(program);
+
     var distFolder = cmd.distFolder;
     var gitFolder = cmd.gitFolder || '.';
     var versionHash = getVersionHash(gitFolder);
@@ -40,6 +44,11 @@ module.exports = function (program) {
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_ADDED_REVISION_TO_METAJSON);
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_STARTING_FOLDER_ROTATION);
       return S3Srvc.rotate(versionHash);
+    }).then(function () {
+      if (cmd.invalidateCloufrontDistribution) {
+        _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_INVALIDATING_DISTRIBUTION);
+        return CloudfrontSrvc.createInvalidation(cmd.invalidateCloufrontDistribution);
+      }
     }).then(function () {
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_FOLDERS_ROTATED_SUCCESSFULLY);
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_END);

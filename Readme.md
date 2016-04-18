@@ -1,18 +1,22 @@
-#s3-deploy-fun
+#s3-revisions
 
 ## Description
 
-A commander CLI app
+Deploy static UI into Amazon S3 Bucket.
+Support versioning.
 
 ## Usage
 
-To install s3-deploy-fun from npm, run:
+To install s3-revisions from npm, run:
 
 ```
-$ npm install -g s3-deploy-fun
+$ npm install -g s3-revisions
 ```
 
-```node ./bin/s3-deploy-fun --help```
+```s3-revisions --help```
+
+## Todo
+Revision Rollback
 
 ## License
 
@@ -20,6 +24,3 @@ Copyright (c) 2016 Piero Maltese
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
 
-## Acknowledgments
-
-Built using [generator-commader](https://github.com/Hypercubed/generator-commander).

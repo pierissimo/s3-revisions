@@ -10,6 +10,11 @@ export class OutputService {
     }
   }
 
+  error(message) {
+    console.error(`---- ERROR:`);
+    console.error(message);
+  }
+
   debug(message){
     if (this.checkVerbosity()) {
       console.info(`==== DEBUG: ${message} `);

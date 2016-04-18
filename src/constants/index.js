@@ -21,6 +21,8 @@ export const CONSTANTS = {
     DEPLOY_ADDED_REVISION_TO_METAJSON: 'meta.json File updated',
     DEPLOY_STARTING_FOLDER_ROTATION: 'Handle Folders rotation...',
     DEPLOY_FOLDERS_ROTATED_SUCCESSFULLY: 'Folders rotated successfully',
+    DEPLOY_INVALIDATING_DISTRIBUTION: 'Invalidating Cloudfront Distribution',
+    DEPLOY_CLOUDFRONT_INVALIDATION_ERROR: 'Error invalidation Cloudfront Distribution',
     DEPLOY_END: 'Deploy finish'
   }
 };
