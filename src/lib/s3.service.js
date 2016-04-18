@@ -21,7 +21,7 @@ export class S3Service {
     };
     this.s3 = Promise.promisifyAll(s3.createClient(options));
     this.bucket = this.program.bucket;
-    this.rootFolder = this.program.rootFolder || '';
+    this.rootFolder = this.program.s3RootFolder || '';
     this.revisionFolderName = CONSTANTS.REVISION_FOLDERNAME;
     this.revisionFolderPath = path.join(this.rootFolder, this.revisionFolderName);
     this.metaJsonPath = path.join(this.revisionFolderPath, CONSTANTS.META_JSON_FILENAME);
