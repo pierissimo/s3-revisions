@@ -30,7 +30,7 @@ export class CloudfrontService {
             /* required */
             Quantity: 0, /* required */
             Items: [
-              this.lastRevisionFolderPath
+              path.join(this.lastRevisionFolderPath, '*')
             ]
           }
         }

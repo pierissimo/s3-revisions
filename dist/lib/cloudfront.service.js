@@ -58,7 +58,7 @@ var CloudfrontService = exports.CloudfrontService = function () {
             Paths: {
               /* required */
               Quantity: 0, /* required */
-              Items: [_this.lastRevisionFolderPath]
+              Items: [_path2.default.join(_this.lastRevisionFolderPath, '*')]
             }
           }
         };
