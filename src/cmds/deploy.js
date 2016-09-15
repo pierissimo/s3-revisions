@@ -23,12 +23,12 @@ module.exports = function (program) {
 
 
   function deployAction(cmd, options) {
-    let S3Srvc = new S3Service(program);
-    let CloudfrontSrvc = new CloudfrontService(program);
-
     const distFolder = cmd.distFolder;
     const gitFolder = cmd.gitFolder || '.';
     const versionHash = getVersionHash(gitFolder);
+
+    let S3Srvc = new S3Service(program, { gitFolder: gitFolder });
+    let CloudfrontSrvc = new CloudfrontService(program);
 
     setTimeout(() => {
       OutputService.log(CONSTANTS.LABELS.DEPLOY_START);

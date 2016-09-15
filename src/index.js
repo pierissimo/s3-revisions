@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-var program = require('commander');
+let program = require('commander');
 
 require('autocmdr/lib/logger')(program);
 require('autocmdr/lib/loader')(program);

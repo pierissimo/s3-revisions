@@ -21,7 +21,7 @@ export class CloudfrontService {
 
   createInvalidation(distributionId) {
     return new Promise((resolve, reject) => {
-      var params = {
+      let params = {
         DistributionId: distributionId, /* required */
         InvalidationBatch: {
           /* required */

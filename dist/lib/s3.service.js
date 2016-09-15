@@ -46,11 +46,11 @@ var S3Service = exports.S3Service = function () {
     this.options = options || {};
     this.program = program;
     this.s3AWS = _bluebird2.default.promisifyAll(new _awsSdk2.default.S3());
-    var options = {
+    var _options = {
       s3Client: this.s3
       // more options available. See API docs below.
     };
-    this.s3 = _bluebird2.default.promisifyAll(_s2.default.createClient(options));
+    this.s3 = _bluebird2.default.promisifyAll(_s2.default.createClient(_options));
     this.bucket = this.program.bucket;
     this.rootFolder = this.program.s3RootFolder || '';
     this.revisionFolderName = _constants.CONSTANTS.REVISION_FOLDERNAME;
@@ -83,23 +83,24 @@ var S3Service = exports.S3Service = function () {
         revisions = json.revisions;
         revisionsList = _lodash2.default.map(revisions, 'id');
         return revisions;
-      }); /*
-          .then((data) => {
-          let folders = data.Contents;
-          return _.chain(folders)
-              .orderBy('LastModified', 'desc')
-              .map((obj) => {
-                return {
-                  id: _.trimEnd(obj.Key.replace(this.revisionFolderPath, ''), '/'),
-                  date: obj.LastModified
-                }
-              })
-              .filter((folder) => {
-                console.log(folder);
-                return revisionsList.indexOf(folder.id) > -1;
-              })
-              .value();
-          })*/
+      });
+      /*
+       .then((data) => {
+       let folders = data.Contents;
+       return _.chain(folders)
+       .orderBy('LastModified', 'desc')
+       .map((obj) => {
+       return {
+       id: _.trimEnd(obj.Key.replace(this.revisionFolderPath, ''), '/'),
+       date: obj.LastModified
+       }
+       })
+       .filter((folder) => {
+       console.log(folder);
+       return revisionsList.indexOf(folder.id) > -1;
+       })
+       .value();
+       })*/
     }
   }, {
     key: 'createMetaJson',
@@ -113,23 +114,16 @@ var S3Service = exports.S3Service = function () {
     }
   }, {
     key: 'uploadFolder',
-    value: function uploadFolder(src, dest) {
+    value: function uploadFolder(src, _dest) {
       var _this2 = this;
 
+      var dest = _path2.default.join(this.revisionFolderPath, _dest);
       return new _bluebird2.default(function (resolve, reject) {
-        var params = {
-          localDir: src,
-          deleteRemoved: true,
-          s3Params: {
-            Bucket: _this2.bucket,
-            Prefix: _path2.default.join(_this2.revisionFolderPath, dest)
+        return (0, _child_process.exec)('aws s3 cp --recursive ' + src + ' s3://' + _this2.bucket + '/' + dest, function (err, stdout, stderr) {
+          if (err) {
+            return reject(err);
           }
-        };
-
-        var uploader = _this2.s3.uploadDir(params);
-        uploader.on('progress', function () {});
-        uploader.on('end', function () {
-          resolve();
+          resolve(stdout);
         });
       });
     }
@@ -138,10 +132,18 @@ var S3Service = exports.S3Service = function () {
     value: function addRevisionToJson(revisionHash) {
       var _this3 = this;
 
+      var pkgVersion = void 0;
+      try {
+        pkgVersion = require(_path2.default.join(_path2.default.resolve(this.options.gitFolder), 'package.json')).version;
+      } catch (err) {
+        pkgVersion = '';
+      }
+
       return this.getMetaJson().then(function (json) {
         json.revisions.unshift({
           id: revisionHash,
-          date: new Date()
+          date: new Date(),
+          version: pkgVersion
         });
 
         return _this3.createMetaJson(json);

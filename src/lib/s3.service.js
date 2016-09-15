@@ -15,11 +15,11 @@ export class S3Service {
     this.options = options || {};
     this.program = program;
     this.s3AWS = Promise.promisifyAll(new AWS.S3());
-    var options = {
+    let _options = {
       s3Client: this.s3
       // more options available. See API docs below.
     };
-    this.s3 = Promise.promisifyAll(s3.createClient(options));
+    this.s3 = Promise.promisifyAll(s3.createClient(_options));
     this.bucket = this.program.bucket;
     this.rootFolder = this.program.s3RootFolder || '';
     this.revisionFolderName = CONSTANTS.REVISION_FOLDERNAME;
@@ -54,23 +54,24 @@ export class S3Service {
           revisions = json.revisions;
           revisionsList = _.map(revisions, 'id');
           return revisions;
-        })/*
-        .then((data) => {
-          let folders = data.Contents;
-          return _.chain(folders)
-              .orderBy('LastModified', 'desc')
-              .map((obj) => {
-                return {
-                  id: _.trimEnd(obj.Key.replace(this.revisionFolderPath, ''), '/'),
-                  date: obj.LastModified
-                }
-              })
-              .filter((folder) => {
-                console.log(folder);
-                return revisionsList.indexOf(folder.id) > -1;
-              })
-              .value();
-        })*/
+        })
+    /*
+     .then((data) => {
+     let folders = data.Contents;
+     return _.chain(folders)
+     .orderBy('LastModified', 'desc')
+     .map((obj) => {
+     return {
+     id: _.trimEnd(obj.Key.replace(this.revisionFolderPath, ''), '/'),
+     date: obj.LastModified
+     }
+     })
+     .filter((folder) => {
+     console.log(folder);
+     return revisionsList.indexOf(folder.id) > -1;
+     })
+     .value();
+     })*/
   }
 
   createMetaJson(content) {
@@ -84,33 +85,35 @@ export class S3Service {
   }
 
 
-  uploadFolder(src, dest) {
+  uploadFolder(src, _dest) {
+    const dest = path.join(this.revisionFolderPath, _dest);
     return new Promise((resolve, reject) => {
-      let params = {
-        localDir: src,
-        deleteRemoved: true,
-        s3Params: {
-          Bucket: this.bucket,
-          Prefix: path.join(this.revisionFolderPath, dest)
+      return exec(`aws s3 cp --recursive ${src} s3://${this.bucket}/${dest}`, (err, stdout, stderr) => {
+        if (err) {
+          return reject(err);
         }
-      };
-
-      var uploader = this.s3.uploadDir(params);
-      uploader.on('progress', function () {
-      });
-      uploader.on('end', function () {
-        resolve();
+        resolve(stdout);
       });
     });
   }
 
   addRevisionToJson(revisionHash) {
+    let pkgVersion;
+    try {
+      pkgVersion = require(path.join(path.resolve(this.options.gitFolder), 'package.json')).version;
+    }
+    catch (err) {
+      pkgVersion = '';
+    }
+
+
     return this
         .getMetaJson()
         .then((json) => {
           json.revisions.unshift({
             id: revisionHash,
-            date: new Date()
+            date: new Date(),
+            version: pkgVersion
           });
 
           return this.createMetaJson(json);
