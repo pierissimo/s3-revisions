@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-var program = require('commander');
+let program = require('commander');
 
 require('autocmdr/lib/logger')(program);
 require('autocmdr/lib/loader')(program);
@@ -35,7 +35,6 @@ process.env.debug = program.verbose;
 function increaseVerbosity(v, total) {
   return total + 1;
 }
-
 /*
  Access Key ID:
  AKIAJCVZJKPA4TKRMTJA

@@ -45,6 +45,9 @@ module.exports = function (program) {
         case 'NoSuchKey':
           return createMetaJson();
           break;
+        default:
+          console.error(err);
+          break;
       }
     }
 

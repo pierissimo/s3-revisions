@@ -22,6 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //const child_process = require('child_process').execSync;
 
+
 module.exports = function (program) {
 
   program.command('deploy').version('0.0.0')
@@ -29,12 +30,12 @@ module.exports = function (program) {
   .option('-g, --git-folder <gitFolder>').option('-d, --dist-folder <distFolder>').option('-i, --invalidate-cloufront-distribution [cloudFrontDistribution]').action(deployAction);
 
   function deployAction(cmd, options) {
-    var S3Srvc = new _s.S3Service(program);
-    var CloudfrontSrvc = new _cloudfront.CloudfrontService(program);
-
     var distFolder = cmd.distFolder;
     var gitFolder = cmd.gitFolder || '.';
     var versionHash = getVersionHash(gitFolder);
+
+    var S3Srvc = new _s.S3Service(program, { gitFolder: gitFolder });
+    var CloudfrontSrvc = new _cloudfront.CloudfrontService(program);
 
     setTimeout(function () {
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_START);
