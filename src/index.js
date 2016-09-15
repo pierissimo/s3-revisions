@@ -35,8 +35,3 @@ process.env.debug = program.verbose;
 function increaseVerbosity(v, total) {
   return total + 1;
 }
-/*
- Access Key ID:
- AKIAJCVZJKPA4TKRMTJA
- Secret Access Key:
- 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*/
