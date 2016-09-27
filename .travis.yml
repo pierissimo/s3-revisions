@@ -1,4 +1,15 @@
 language: node_js
 node_js:
-  - '0.8'
-  - '0.10'
+- '0.12'
+- '6'
+
+before_deploy: "npm run build"
+
+deploy:
+  provider: npm
+  email: maltesepiero@gmail.com
+  api_key:
+    secure: E2RHonqqrOVbEtHZn5c1VeIgqcHF1Rasi5zATNuiTHfrKSuoRStvG+lgnd/cEvOUiOs+UYmneWG95OxJCq8mtOjs2kqrISAkpj++4E8RyVaXsBB/YMYorfCxNzpxMEhT/ca4YespqKx8Ca8iEeQXIxMhhrL8kEXcPmnnKbzPpCYNnDe4yPpl5n/T/niXAwkeRKXnrjEWZsSwmAxabG6bB509EOzJEjHshkyXiKaRPShtT3d8uyhfzMnpo7qKdzop64BU331n+l0QLFHrzs3lIYMJm/sROJCGK3WNHelkiEldWauFQCT76yVkVXA/x43hKBAc9Q0v6s0iXkze0Zfy/liX9i4yuIk5nzP0rkmkqt+0/gkwQVw6pChjopNi2syCkXON5wMC0idNjYGY5mCyyW/lnN+PX32b5MMA+8JTaEKg4Spa/dGZaE6DNmztEbcH+m6hqN4mzolD9wG0eODC25so7p3DlJVPRZ5yGtWMBQeQHU5kw3j4pLX4SCyfvTpyIer75amqVA5HQJZG7FwcXrg3FAyFI7BVBxuv1jRz/GMKu1hgOr4nP3lQniDGzWZ5C/WwD5Xwx89vKh4z7XXT/CGsRtVoQ8gfso/+jUPeOR0R/ahlC4cyQ7WnNfmUMSOq6P4bZn4M21ZR7ze0pMOb1werBSTLWVcxM7oaCv5RXQo=
+  on:
+    repo: pierissimo/s3-revisions
+    branch: master
