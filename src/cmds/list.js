@@ -6,7 +6,6 @@ import { default as _ } from 'lodash';
 import { default as OutputService } from '../lib/output.service';
 
 module.exports = function (program) {
-
   program
       .command('list')
       .version('0.0.0')
@@ -15,11 +14,11 @@ module.exports = function (program) {
 
 
   function listAction(cmd, options) {
-    let S3Srvc = new S3Service(program);
+    const S3Srvc = new S3Service(program);
 
     S3Srvc
         .getRevisions()
-        .then((revisions) => {
+        .then(revisions => {
           OutputService.log('Revision list:');
           _.orderBy(revisions, ['date'], ['asc']).forEach(function (revision) {
             OutputService.log('ID: ' + revision.id);
@@ -37,5 +36,4 @@ module.exports = function (program) {
         break;
     }
   }
-
 };

@@ -20,13 +20,12 @@ var _output2 = _interopRequireDefault(_output);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//const child_process = require('child_process').execSync;
+// const child_process = require('child_process').execSync;
 
 
 module.exports = function (program) {
-
   program.command('deploy').version('0.0.0')
-  //.description('Deploy')
+  // .description('Deploy')
   .option('-g, --git-folder <gitFolder>').option('-d, --dist-folder <distFolder>').option('-i, --invalidate-cloufront-distribution [cloudFrontDistribution]').action(deployAction);
 
   function deployAction(cmd, options) {
