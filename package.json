@@ -9,9 +9,9 @@
     "s3-revisions": "./dist/index.js"
   },
   "scripts": {
-    "build": "./node_modules/.bin/babel --presets es2015,stage-0 src -d dist",
+    "build": "babel --presets es2015,stage-0 src -d dist",
     "test": "exit 0; mocha -R spec",
-    "dev": "./node_modules/.bin/babel --presets es2015,stage-0 --watch src -d dist",
+    "dev": "babel --presets es2015,stage-0 --watch src -d dist",
     "postinstall": "sudo pip install --upgrade awscli==1.10.20"
   },
   "author": {

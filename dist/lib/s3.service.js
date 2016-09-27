@@ -158,9 +158,9 @@ var S3Service = exports.S3Service = function () {
       var secondToLastPath = _path2.default.join(this.revisionFolderPath, _constants.CONSTANTS.SECOND_TO_LAST_REVISION_FOLDERNAME);
       var revisionPath = _path2.default.join(this.revisionFolderPath, revisionHash);
 
-      //remove secondToLastFolder
+      // remove secondToLastFolder
       return this.delete(secondToLastPath)
-      //move lastPath to secondToLastPath
+      // move lastPath to secondToLastPath
       .then(function () {
         return _this4.move(lastPath, secondToLastPath);
       }).then(function () {

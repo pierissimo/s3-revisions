@@ -12,7 +12,7 @@ require('autocmdr/lib/config')(program);
 require('autocmdr/lib/help')(program);
 
 require('./lib/manage-credentials');
-//commands
+// commands
 require('./cmds/list.js')(program);
 require('./cmds/init.js')(program);
 require('./cmds/deploy.js')(program);
@@ -30,8 +30,3 @@ process.env.debug = program.verbose;
 function increaseVerbosity(v, total) {
   return total + 1;
 }
-/*
- Access Key ID:
- AKIAJCVZJKPA4TKRMTJA
- Secret Access Key:
- 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*/

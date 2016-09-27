@@ -17,7 +17,6 @@ var _output2 = _interopRequireDefault(_output);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function (program) {
-
   program.command('init').version('0.0.0').description('Init').action(initAction);
 
   function initAction(cmd, options) {
