@@ -7,7 +7,6 @@ import { InvalidMetaJsonError } from '../lib/errors';
 import { default as OutputService } from '../lib/output.service';
 
 module.exports = function (program) {
-
   program
       .command('init')
       .version('0.0.0')
@@ -16,7 +15,7 @@ module.exports = function (program) {
 
 
   function initAction(cmd, options) {
-    let S3Srvc = new S3Service(program);
+    const S3Srvc = new S3Service(program);
     OutputService.log(CONSTANTS.LABELS.CHECKING_FOR_INITIALIZED_BUCKET);
     S3Srvc
         .getMetaJson()
@@ -61,5 +60,4 @@ module.exports = function (program) {
           });
     }
   }
-
 };

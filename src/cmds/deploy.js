@@ -7,15 +7,14 @@ import { default as _ } from 'lodash';
 import { InvalidMetaJsonError, CloufrontInvalidationError } from '../lib/errors';
 import { execSync } from 'child_process';
 import { default as OutputService } from '../lib/output.service';
-//const child_process = require('child_process').execSync;
+// const child_process = require('child_process').execSync;
 
 
 module.exports = function (program) {
-
   program
       .command('deploy')
       .version('0.0.0')
-      //.description('Deploy')
+      // .description('Deploy')
       .option('-g, --git-folder <gitFolder>')
       .option('-d, --dist-folder <distFolder>')
       .option('-i, --invalidate-cloufront-distribution [cloudFrontDistribution]')
@@ -27,8 +26,8 @@ module.exports = function (program) {
     const gitFolder = cmd.gitFolder || '.';
     const versionHash = getVersionHash(gitFolder);
 
-    let S3Srvc = new S3Service(program, { gitFolder: gitFolder });
-    let CloudfrontSrvc = new CloudfrontService(program);
+    const S3Srvc = new S3Service(program, { gitFolder });
+    const CloudfrontSrvc = new CloudfrontService(program);
 
     setTimeout(() => {
       OutputService.log(CONSTANTS.LABELS.DEPLOY_START);
@@ -42,7 +41,7 @@ module.exports = function (program) {
         .then(() => {
           OutputService.log(CONSTANTS.LABELS.DEPLOY_ADDED_REVISION_TO_METAJSON);
           OutputService.log(CONSTANTS.LABELS.DEPLOY_STARTING_FOLDER_ROTATION);
-          return S3Srvc.rotate(versionHash)
+          return S3Srvc.rotate(versionHash);
         })
         .then(() => {
           if (cmd.invalidateCloufrontDistribution) {
@@ -53,12 +52,11 @@ module.exports = function (program) {
         .then(() => {
           OutputService.log(CONSTANTS.LABELS.DEPLOY_FOLDERS_ROTATED_SUCCESSFULLY);
           OutputService.log(CONSTANTS.LABELS.DEPLOY_END);
-        })
+        });
   }
 
 
   function getVersionHash(gitFolder) {
     return _.trim(execSync('cd ' + gitFolder + '; git rev-parse HEAD').toString());
   }
-
 };

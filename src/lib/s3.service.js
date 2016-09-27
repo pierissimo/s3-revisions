@@ -1,21 +1,21 @@
 'use strict';
 
 import { default as AWS } from 'aws-sdk';
-import { default as s3} from 's3';
+import { default as s3 } from 's3';
 import Promise from 'bluebird';
 import { CONSTANTS } from '../constants';
 import { default as _ } from 'lodash';
 import path from 'path';
 import { InvalidMetaJsonError } from '../lib/errors';
 import { exec } from 'child_process';
-let execAsync = Promise.promisify(exec);
+const execAsync = Promise.promisify(exec);
 
 export class S3Service {
   constructor(program, options) {
     this.options = options || {};
     this.program = program;
     this.s3AWS = Promise.promisifyAll(new AWS.S3());
-    let _options = {
+    const _options = {
       s3Client: this.s3
       // more options available. See API docs below.
     };
@@ -33,7 +33,7 @@ export class S3Service {
           Bucket: this.bucket,
           Key: this.metaJsonPath
         })
-        .then((data) => {
+        .then(data => {
           try {
             return JSON.parse(data.Body.toString());
           }
@@ -44,17 +44,17 @@ export class S3Service {
   }
 
   getRevisions() {
-    let _this = this;
+    const _this = this;
     let revisions = [];
     let revisionsList = [];
 
     return this
         .getMetaJson()
-        .then((json) => {
+        .then(json => {
           revisions = json.revisions;
           revisionsList = _.map(revisions, 'id');
           return revisions;
-        })
+        });
     /*
      .then((data) => {
      let folders = data.Contents;
@@ -81,7 +81,7 @@ export class S3Service {
           Bucket: this.bucket,
           Key: this.metaJsonPath,
           Body: JSON.stringify(content, null, 2)
-        })
+        });
   }
 
 
@@ -109,7 +109,7 @@ export class S3Service {
 
     return this
         .getMetaJson()
-        .then((json) => {
+        .then(json => {
           json.revisions.unshift({
             id: revisionHash,
             date: new Date(),
@@ -121,18 +121,18 @@ export class S3Service {
   }
 
   rotate(revisionHash) {
-    let lastPath = path.join(this.revisionFolderPath, CONSTANTS.LAST_REVISION_FOLDERNAME);
-    let secondToLastPath = path.join(this.revisionFolderPath, CONSTANTS.SECOND_TO_LAST_REVISION_FOLDERNAME);
-    let revisionPath = path.join(this.revisionFolderPath, revisionHash);
+    const lastPath = path.join(this.revisionFolderPath, CONSTANTS.LAST_REVISION_FOLDERNAME);
+    const secondToLastPath = path.join(this.revisionFolderPath, CONSTANTS.SECOND_TO_LAST_REVISION_FOLDERNAME);
+    const revisionPath = path.join(this.revisionFolderPath, revisionHash);
 
-    //remove secondToLastFolder
+    // remove secondToLastFolder
     return this.delete(secondToLastPath)
-        //move lastPath to secondToLastPath
+        // move lastPath to secondToLastPath
         .then(() => {
-          return this.move(lastPath, secondToLastPath)
+          return this.move(lastPath, secondToLastPath);
         })
         .then(() => {
-          return this.copy(revisionPath, lastPath)
+          return this.copy(revisionPath, lastPath);
         })
         .then(() => {
         })
@@ -177,7 +177,4 @@ export class S3Service {
     });
   }
 }
-
-
-
 

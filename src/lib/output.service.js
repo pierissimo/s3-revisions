@@ -11,11 +11,11 @@ export class OutputService {
   }
 
   error(message) {
-    console.error(`---- ERROR:`);
+    console.error('---- ERROR:');
     console.error(message);
   }
 
-  debug(message){
+  debug(message) {
     if (this.checkVerbosity()) {
       console.info(`==== DEBUG: ${message} `);
     }
@@ -26,7 +26,6 @@ export class OutputService {
       console.log('- done');
       this.sep();
     }
-
   }
 
   sep() {

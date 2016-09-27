@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-let program = require('commander');
+const program = require('commander');
 
 require('autocmdr/lib/logger')(program);
 require('autocmdr/lib/loader')(program);
@@ -11,7 +11,7 @@ require('autocmdr/lib/config')(program);
 require('autocmdr/lib/help')(program);
 
 require('./lib/manage-credentials');
-//commands
+// commands
 require('./cmds/list.js')(program);
 require('./cmds/init.js')(program);
 require('./cmds/deploy.js')(program);

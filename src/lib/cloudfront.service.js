@@ -21,7 +21,7 @@ export class CloudfrontService {
 
   createInvalidation(distributionId) {
     return new Promise((resolve, reject) => {
-      let params = {
+      const params = {
         DistributionId: distributionId, /* required */
         InvalidationBatch: {
           /* required */
@@ -39,14 +39,11 @@ export class CloudfrontService {
       return this.cloudfront
           .createInvalidationAsync(params)
           .then(resolve)
-          .catch((err) => {
+          .catch(err => {
             OutputService.error(CONSTANTS.LABELS.DEPLOY_CLOUDFRONT_INVALIDATION_ERROR);
             resolve();
           });
     });
   }
 }
-
-
-
 
