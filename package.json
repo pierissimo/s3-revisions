@@ -22,10 +22,10 @@
   "license": "MIT",
   "bugs": "https://github.com/pierissimo/s3-deploy-fun/issues",
   "dependencies": {
-    "autocmdr": "~0.0.7",
+    "autocmdr": "0.0.8",
     "aws-sdk": "^2.3.3",
     "bluebird": "^3.3.5",
-    "commander": "~2.0.0",
+    "commander": "^2.9.0",
     "lodash": "^4.11.1",
     "s3": "^4.4.0"
   },

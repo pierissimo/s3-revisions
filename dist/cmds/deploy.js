@@ -26,12 +26,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = function (program) {
   program.command('deploy').version('0.0.0')
   // .description('Deploy')
-  .option('-g, --git-folder <gitFolder>').option('-d, --dist-folder <distFolder>').option('-i, --invalidate-cloufront-distribution [cloudFrontDistribution]').action(deployAction);
+  .option('-g, --git-folder <gitFolder>').option('-d, --dist-folder <distFolder>').option('-p, --use-package-json-version <value>').option('-i, --invalidate-cloufront-distribution [cloudFrontDistribution]').action(deployAction);
 
   function deployAction(cmd, options) {
     var distFolder = cmd.distFolder;
-    var gitFolder = cmd.gitFolder || '.';
-    var versionHash = getVersionHash(gitFolder);
+    var gitFolder = cmd.gitFolder;
+    var usePackageJsonVersion = cmd.usePackageJsonVersion;
+    var folderName = void 0;
+
+    switch (true) {
+      case !_lodash2.default.isUndefined(gitFolder) && !_lodash2.default.isUndefined(usePackageJsonVersion):
+        throw new Error('-g and -p options cannot be used together');
+        break;
+      case !_lodash2.default.isUndefined(gitFolder):
+        folderName = getGitVersionHash(gitFolder);
+        break;
+      case !_lodash2.default.isUndefined(usePackageJsonVersion):
+        folderName = getPackageJsonVersion(usePackageJsonVersion);
+        break;
+    }
 
     var S3Srvc = new _s.S3Service(program, { gitFolder: gitFolder });
     var CloudfrontSrvc = new _cloudfront.CloudfrontService(program);
@@ -39,13 +52,13 @@ module.exports = function (program) {
     setTimeout(function () {
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_START);
     }, 1);
-    S3Srvc.uploadFolder(distFolder, versionHash).then(function () {
+    S3Srvc.uploadFolder(distFolder, folderName).then(function () {
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_FOLDER_UPLOADED);
-      return S3Srvc.addRevisionToJson(versionHash);
+      return S3Srvc.addRevisionToJson(folderName);
     }).then(function () {
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_ADDED_REVISION_TO_METAJSON);
       _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_STARTING_FOLDER_ROTATION);
-      return S3Srvc.rotate(versionHash);
+      return S3Srvc.rotate(folderName);
     }).then(function () {
       if (cmd.invalidateCloufrontDistribution) {
         _output2.default.log(_constants.CONSTANTS.LABELS.DEPLOY_INVALIDATING_DISTRIBUTION);
@@ -57,7 +70,21 @@ module.exports = function (program) {
     });
   }
 
-  function getVersionHash(gitFolder) {
+  function getGitVersionHash(gitFolder) {
     return _lodash2.default.trim((0, _child_process.execSync)('cd ' + gitFolder + '; git rev-parse HEAD').toString());
+  }
+
+  function getPackageJsonVersion(packageJson) {
+    var _packageJsonPath = packageJson;
+    if (packageJson.charAt(0) !== '/') {
+      _packageJsonPath = process.cwd() + '/' + _packageJsonPath;
+    }
+
+    var packageJsonObj = require(_packageJsonPath);
+    if (!packageJsonObj.version) {
+      throw new Error('Version property not set in package.json file');
+    }
+
+    return packageJsonObj.version;
   }
 };
