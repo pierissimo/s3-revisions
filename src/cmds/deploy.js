@@ -13,7 +13,7 @@ import { default as OutputService } from '../lib/output.service';
 module.exports = function (program) {
   program
       .command('deploy')
-      .version('0.0.0')
+      .version('0.1.1')
       // .description('Deploy')
       .option('-g, --git-folder <gitFolder>')
       .option('-d, --dist-folder <distFolder>')

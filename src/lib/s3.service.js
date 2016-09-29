@@ -97,21 +97,11 @@ export class S3Service {
     });
   }
 
-  addRevisionToJson(revisionHash) {
-    let pkgVersion;
-    try {
-      pkgVersion = require(path.join(path.resolve(this.options.gitFolder), 'package.json')).version;
-    }
-    catch (err) {
-      pkgVersion = '';
-    }
-
-
+  addRevisionToJson(pkgVersion) {
     return this
         .getMetaJson()
         .then(json => {
           json.revisions.unshift({
-            id: revisionHash,
             date: new Date(),
             version: pkgVersion
           });

@@ -8,7 +8,7 @@ import { default as OutputService } from '../lib/output.service';
 module.exports = function (program) {
   program
       .command('list')
-      .version('0.0.0')
+      .version('0.1.1')
       .description('A commander command')
       .action(listAction);
 
@@ -21,7 +21,7 @@ module.exports = function (program) {
         .then(revisions => {
           OutputService.log('Revision list:');
           _.orderBy(revisions, ['date'], ['asc']).forEach(function (revision) {
-            OutputService.log('ID: ' + revision.id);
+            OutputService.log('Version: ' + revision.version);
             OutputService.log('Date: ' + revision.date);
             OutputService.sep();
           });

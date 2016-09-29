@@ -9,7 +9,7 @@ import { default as OutputService } from '../lib/output.service';
 module.exports = function (program) {
   program
       .command('init')
-      .version('0.0.0')
+      .version('0.1.1')
       .description('Init')
       .action(initAction);
 
