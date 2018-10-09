@@ -28,6 +28,11 @@ Then, upload the folder:
 s3-revisions --bucket bucket-name --s3-root-folder development deploy --git-folder ./ --dist-folder ./dist --invalidate-cloufront-distribution E00000006
 ```
 
+if you want to use the package.json version, as the name of the uploader folder, use the -p or --use-package-json-version 
+
+```
+s3-revisions --bucket bucket-name --s3-root-folder development deploy --use-package-json-version package.json --dist-folder ./dist --invalidate-cloufront-distribution E00000006
+```
 ## Todo
 Revision Rollback
 
